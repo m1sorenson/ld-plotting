@@ -1,0 +1,11 @@
+SNP	CHR	POSITION	FLANK	ancestry	trans done?	eur done?	amr done?	afr done?	amr/afr proxy	notes	amr err	afr err
+rs12139482	1	56104449	1MB	eur	no	no	no	no		proxy for rs35942154		
+rs307602	3	12098825	1MB	eur	no	no	no	no		proxy for rs900138		
+rs73217616	5	107907857	1MB	eur	no	no	no	no		proxy for rs535664220		
+rs17478757	5	166157531	1MB	eur	no	no	no	no		proxy for rs570241367		
+rs729931	14	52973316	1MB	eur	no	no	no	no		proxy for rs10151051		
+rs8027647	15	72635344	1MB	eur	no	no	no	no		proxy for rs7180191		
+rs8137853	22	40546041	1MB	eur	no	no	no	no		proxy for rs35629137		
+rs12139482	1	56104449	1MB	trans	no	no	no	no		proxy for rs35942154		
+rs1446475	2	164980021	1MB	trans	no	no	no	no		proxy for rs61541692		
+rs13076319	3	170105709	1MB	trans	no	no	no	no		proxy for rs74505194		

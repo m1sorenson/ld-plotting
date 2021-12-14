@@ -1,0 +1,61 @@
+SNP	CHR	POSITION	FLANK	ancestry	trans done?	eur done?	amr done?	afr done?	amr/afr proxy	notes	amr err	afr err
+rs35942154	1	56104449	1MB	eur	yes	yes	no	no	rs12139482		not in ref	not in ref
+rs12722976	1	103345744	1MB	eur	yes	yes	yes	yes				
+rs4399218	1	170195231	1MB	eur	yes	yes	yes	yes				
+rs708727	1	205767885	1MB	eur	yes	yes	yes	yes				
+rs13016665	2	57995348	1MB	eur	yes	yes	yes	yes				
+rs3192177	2	98354511	1MB	eur	yes	yes	yes	yes				
+rs900138	3	12098825	1MB	eur	yes	yes	no	no	rs307602		not in ref	not in ref
+rs16845806	3	127710474	1MB	eur	yes	yes	yes	yes				
+rs13107325	4	103188709	1MB	eur	yes	yes	yes	yes				
+rs2214380	4	105641173	1MB	eur	yes	yes	yes	yes				
+rs6825241	4	152543783	1MB	eur	yes	yes	yes	yes				
+rs535664220	5	107907857	1MB	eur	yes	yes	no	no	rs73217616		not in ref	not in ref
+rs570241367	5	166157531	1MB	eur	no	no	no	no	rs17478757	failed - genotypes from VCF have more than 4 possible states (more than 2 ordered alleles.)	not in ref	not in ref
+rs17478611	5	166155566	1MB	eur	yes	yes	yes	yes		used as proxy for 570241367		
+rs2545799	5	176852186	1MB	eur	yes	yes	yes	yes				
+rs17769105	6	13634072	1MB	eur	yes	yes	yes	yes				
+rs1574430	6	43269029	1MB	eur	yes	yes	yes	yes				
+rs13252982	8	10255105	3MB	eur	yes	yes	yes	yes				
+rs4999052	8	134414921	1MB	eur	yes	yes	yes	yes				
+rs3003615	9	130997892	1MB	eur	yes	yes	yes	yes				
+rs10761411	9	136973826	1MB	eur	yes	yes	yes	yes				
+rs12805064	11	13258381	1MB	eur	yes	yes	yes	yes				
+rs67279079	11	88893001	1MB	eur	yes	yes	yes	yes				
+rs2749882	14	52515259	1MB	eur	yes	yes	yes	yes				
+rs10151051	14	52973316	1MB	eur	yes	yes	no	no	rs729931		not in ref	not in ref
+rs17388803	15	48027204	1MB	eur	yes	yes	yes	yes				
+rs7180191	15	72635344	1MB	eur	yes	yes	no	no	rs8027647		not in ref	not in ref
+rs4781383	16	13112335	1MB	eur	yes	yes	yes	yes				
+rs613872	18	53210302	1MB	eur	yes	yes	yes	yes				
+rs35629137	22	40546041	1MB	eur	yes	yes	no	no	rs8137853		not in ref	not in ref
+rs330634	2	150958611	1MB	amr	yes	yes	yes	yes				
+rs35942154	1	56104449	1MB	trans	yes	yes	no	no	rs12139482		not in ref	not in ref
+rs12722976	1	103345744	1MB	trans	yes	yes	yes	yes				
+rs4399218	1	170195231	1MB	trans	yes	yes	yes	yes				
+rs823154	1	205762406	1MB	trans	yes	yes	yes	yes				
+rs13016665	2	57995348	1MB	trans	yes	yes	yes	yes				
+rs61541692	2	164980021	1MB	trans	yes	yes	no	no	rs1446475		not in ref	not in ref
+rs307582	3	12085149	1MB	trans	yes	yes	yes	yes				
+rs16845806	3	127710474	1MB	trans	yes	yes	yes	yes				
+rs74505194	3	170105709	1MB	trans	yes	yes	no	no	rs13076319		not in ref	not in ref
+rs13107325	4	103188709	1MB	trans	yes	yes	yes	yes				
+rs6825241	4	152543783	1MB	trans	yes	yes	yes	yes				
+rs2630763	5	176901005	1MB	trans	no	yes	yes	yes		trans - no image?		
+rs9379893	6	26584668	1MB	trans	yes	yes	yes	yes				
+rs9257809	6	29356331	1MB	trans	yes	yes	yes	yes				
+rs2242416	6	43273604	1MB	trans	yes	yes	yes	yes				
+rs34389419	8	11229319	3MB	trans	yes	yes	yes	yes				
+rs7843128	8	22473465	1MB	trans	yes	yes	yes	yes				
+rs3003615	9	130997892	1MB	trans	yes	yes	yes	yes				
+rs56303154	9	136936376	1MB	trans	yes	yes	yes	yes				
+rs16915908	10	53013664	1MB	trans	yes	yes	yes	yes				
+rs67279079	11	88893001	1MB	trans	yes	yes	yes	yes				
+rs883263	12	123485188	1MB	trans	yes	yes	yes	yes				
+rs2749882	14	52515259	1MB	trans	yes	yes	yes	yes				
+rs1912629	15	47995384	1MB	trans	yes	yes	yes	yes				
+rs11631214	15	73069937	1MB	trans	yes	yes	yes	yes				
+rs4453453	15	89245354	1MB	trans	yes	yes	yes	yes				
+rs4781383	16	13112335	1MB	trans	yes	yes	yes	yes				
+rs9967532	18	42308640	1MB	trans	yes	yes	yes	yes				
+rs613872	18	53210302	1MB	trans	yes	yes	yes	yes				
