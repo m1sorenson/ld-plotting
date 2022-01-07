@@ -20,19 +20,24 @@ To configure the SNPs you want to plot LD for, create a .tsv (tab-separated valu
 - CHR: Chromosome number
 - POSITION: Position (base pairs)
 - FLANK: Window around SNP to plot LD (in Mega-basepairs, e.g. 1MB would plot all SNPs 1000000 base pairs before or after the SNP of interest)
-- ancestry: which ancestry the SNP was found to be significant in
-- RAN TRANS (optional): whether the SNP has been plotted in TRANS-ancestry (yes/no) - if yes, the script will skip it
-- RAN EUR (optional): whether the SNP has been plotted in EUR-ancestry (yes/no) - if yes, the script will skip it
-- RAN AMR (optional): whether the SNP has been plotted in AMR-ancestry (yes/no) - if yes, the script will skip it
-- RAN AFR (optional): whether the SNP has been plotted in AFR-ancestry (yes/no) - if yes, the script will skip it
+- ANCESTRY: which ancestry the SNP was found to be significant in
+- RUN TRANS: whether to run the SNP in TRANS-ancestry (1/0) - if 1, the script will run it, if 0, the script will skip it
+- RUN EUR: whether to run the SNP in EUR-ancestry (1/0) - if 1, the script will run it, if 0, the script will skip it
+- RUN AMR: whether to run the SNP in AMR-ancestry (1/0) - if 1, the script will run it, if 0, the script will skip it
+- RUN AFR: whether to run the SNP in AFR-ancestry (1/0) - if 1, the script will run it, if 0, the script will skip it
 
-Note: the last four columns are especially useful when a SNP errors, because you can troubleshoot the issue and re-run just one or a few SNPs by marking the others as complete
+IMPORTANT NOTE: make sure the column names match exactly, especially "RUN TRANS", "RUN EUR", "RUN AMR", and "RUN AFR"
+
+Note: the last four columns are especially useful when a SNP errors, because you can troubleshoot the issue and re-run just one or a few SNPs
+
+Examples of config files can be found in the config folder.
 
 ## Set up
 Before this script can be used to run locuszoom, there are a few things that need changing in `run_locuszoom.sh`:
 - the variable `DATA_FILE` on lines 20-39 should be changed to the GWAS summary statistics file of each respective ancestry
 - the variable `LD_VCF` on lines 20-39 should be changed to the reference VCF file of each respective ancestry
-- the database on line 62 after the `--db` flag should be changed
+- the database on line 62 after the `--db` flag should be changed if not using the nievergeltlab server
+- the awk command on lines 70, 74, 78, 82 may need to be changed if the input data files don't have the chromosome column as column 1 for TRANS/EUR and column 2 for AMR/AFR
 
 ## Usage
 To run locuszoom on all ancestries, just edit `run_all.sh` to use the name of your configuration file, then run:

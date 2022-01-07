@@ -43,6 +43,14 @@ fi
 mkdir -p inputs/${ANCESTRY}
 mkdir -p outputs/${ANCESTRY}
 
+TRANS_IND_COL=$(head -n 1 ${CONFIG_FILE} | awk '{for(i = 1; i <= NF; i++){if($i == "RUN TRANS"){print i-1}}}'
+EUR_IND_COL=$(head -n 1 ${CONFIG_FILE} | awk '{for(i = 1; i <= NF; i++){if($i == "RUN EUR"){print i-1}}}'
+AMR_IND_COL=$(head -n 1 ${CONFIG_FILE} | awk '{for(i = 1; i <= NF; i++){if($i == "RUN AMR"){print i-1}}}'
+AFR_IND_COL=$(head -n 1 ${CONFIG_FILE} | awk '{for(i = 1; i <= NF; i++){if($i == "RUN AFR"){print i-1}}}'
+if [[ $TRANS_IND_COL == "" ]]; then TRANS_IND_COL=6; fi
+if [[ $EUR_IND_COL == "" ]]; then EUR_IND_COL=7; fi
+if [[ $AMR_IND_COL == "" ]]; then AMR_IND_COL=8; fi
+if [[ $AFR_IND_COL == "" ]]; then AFR_IND_COL=9; fi
 {
 read #skip first line
 while IFS=$'\t' read -r -a row; do
@@ -56,14 +64,26 @@ while IFS=$'\t' read -r -a row; do
   # Create input file
   echo "RUNNING SNP: $SNP"
   echo -e "CHR: $CHR\tPOS: $POS\tWINDOW: $WINDOW\t"
-  if [[ $ANCESTRY == "AFR" ]] || [[ $ANCESTRY == "AMR" ]]; then
-    zcat ${DATA_FILE} | \
-      awk -v CHR=$CHR -v POS=$POS -v WINDOW=$WINDOW 'BEGIN{OFS="\t"}{if (NR == 1 ) print "SNP", "P"; else if ($2 == CHR && $3 >= POS - WINDOW && $3 <= POS + WINDOW) print $1,$9}' \
-      > inputs/${ANCESTRY}/${PREFIX}_${SNP}.tsv
-  else
+  RUN_TRANS=${row[$TRANS_IND_COL]}
+  RUN_EUR=${row[$EUR_IND_COL]}
+  RUN_AMR=${row[$AMR_IND_COL]}
+  RUN_AFR=${row[$AFR_IND_COL]}
+  if [[ $ANCESTRY == "TRANS" ]] && [[ $RUN_TRANS -eq 1 ]]; then
     zcat ${DATA_FILE} | \
       awk -v CHR=$CHR -v POS=$POS -v WINDOW=$WINDOW 'BEGIN{OFS="\t"}{if (NR == 1 ) print "SNP", "P"; else if ($1 == CHR && $2 >= POS - WINDOW && $2 <= POS + WINDOW) print $3,$9}' \
       > inputs/${ANCESTRY}/${PREFIX}_${SNP}.tsv
+  elif [[ $ANCESTRY == "EUR" ]] && [[ $RUN_EUR -eq 1 ]]; then
+    zcat ${DATA_FILE} | \
+      awk -v CHR=$CHR -v POS=$POS -v WINDOW=$WINDOW 'BEGIN{OFS="\t"}{if (NR == 1 ) print "SNP", "P"; else if ($1 == CHR && $2 >= POS - WINDOW && $2 <= POS + WINDOW) print $3,$9}' \
+      > inputs/${ANCESTRY}/${PREFIX}_${SNP}.tsv
+  elif [[ $ANCESTRY == "AMR" ]] && [[ $RUN_AMR -eq 1 ]]; then
+    zcat ${DATA_FILE} | \
+      awk -v CHR=$CHR -v POS=$POS -v WINDOW=$WINDOW 'BEGIN{OFS="\t"}{if (NR == 1 ) print "SNP", "P"; else if ($2 == CHR && $3 >= POS - WINDOW && $3 <= POS + WINDOW) print $1,$9}' \
+      > inputs/${ANCESTRY}/${PREFIX}_${SNP}.tsv
+  elif [[ $ANCESTRY == "AFR" ]] && [[ $RUN_AFR -eq 1 ]]; then
+      zcat ${DATA_FILE} | \
+        awk -v CHR=$CHR -v POS=$POS -v WINDOW=$WINDOW 'BEGIN{OFS="\t"}{if (NR == 1 ) print "SNP", "P"; else if ($2 == CHR && $3 >= POS - WINDOW && $3 <= POS + WINDOW) print $1,$9}' \
+        > inputs/${ANCESTRY}/${PREFIX}_${SNP}.tsv
   fi
   # Create european output
   python2 /mnt/ukbb/locuszoom/bin/locuszoom --db /mnt/ukbb/adam/tinnitus_gwas/jama_oto/locuszoom_inputs/my_database.db --build hg19 \
