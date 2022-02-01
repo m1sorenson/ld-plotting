@@ -1,0 +1,3 @@
+SNP	CHR	POSITION	FLANK	ANCESTRY	RUN TRANS	RUN EUR	RUN AMR	RUN AFR	amr/afr proxy	notes	amr err	afr err
+rs10884071	10	106731970	1MB	eur	0	1	0	0		proxy for rs7914674		
+rs17078	10	106653311	1MB	eur	0	1	0	0		proxy for rs7914674		

@@ -51,6 +51,27 @@ if [[ $TRANS_IND_COL == "" ]]; then TRANS_IND_COL=6; fi
 if [[ $EUR_IND_COL == "" ]]; then EUR_IND_COL=7; fi
 if [[ $AMR_IND_COL == "" ]]; then AMR_IND_COL=8; fi
 if [[ $AFR_IND_COL == "" ]]; then AFR_IND_COL=9; fi
+
+# function to get the CHR, POS, SNP, P-value column numbers of input file
+get_column_numbers () {
+  if [[ $(echo $1 | grep ".gz$") ]] ; then
+    header=$(zcat $1 | head -n 1)
+  else
+    header=$(head -n 1 $1)
+  fi
+  # uses regex to try to match pattern -
+  CHR_COL=$(echo $header | awk '{ for(i=1; i<=NF; i++){ if($i ~ "[cC][hH][rR]"){ print i } } }')
+  POS_COL=$(echo $header | awk '{ for(i=1; i<=NF; i++){ if($i ~ "[pP][oO][sS]"){ print i } } }')
+  SNP_COL=$(echo $header | \
+    awk '{ for(i=1; i<=NF; i++){ \
+      if($i ~ "([Ss][Nn][Pp])|([Rr][sS])|([Ii][Dd])|([Mm][Aa][Rr][Kk][Ee][Rr])"){ print i } \
+    } }')
+  P_COL=$(echo $header | \
+    awk '{ for(i=1; i<=NF; i++){ \
+      if($i ~ "(^[Pp])(($)|([_-]?[Vv][Aa][Ll]))"){ print i } \
+    } }')
+}
+
 {
 read #skip first line
 while IFS=$'\t' read -r -a row; do
@@ -69,24 +90,32 @@ while IFS=$'\t' read -r -a row; do
   RUN_AMR=${row[$AMR_IND_COL]}
   RUN_AFR=${row[$AFR_IND_COL]}
   if [[ $ANCESTRY == "TRANS" ]] && [[ $RUN_TRANS -eq 1 ]]; then
-    echo $SNP
+    get_column_numbers ${DATA_FILE}
     zcat ${DATA_FILE} | \
-      awk -v CHR=$CHR -v POS=$POS -v WINDOW=$WINDOW 'BEGIN{OFS="\t"}{if (NR == 1 ) print "SNP", "P"; else if ($1 == CHR && $2 >= POS - WINDOW && $2 <= POS + WINDOW) print $3,$9}' \
+      awk -v CHR_COL=$CHR_COL -v POS_COL=$POS_COL -v SNP_COL=$SNP_COL \
+        -v P_COL=$P_COL -v CHR=$CHR -v POS=$POS -v WINDOW=$WINDOW \
+        'BEGIN{OFS="\t"}{if (NR == 1 ) print "SNP", "P"; else if ($CHR_COL == CHR && $POS_COL >= POS - WINDOW && $POS_COL <= POS + WINDOW) print $SNP_COL,$P_COL}' \
       > inputs/${ANCESTRY}/${PREFIX}_${SNP}.tsv
   elif [[ $ANCESTRY == "EUR" ]] && [[ $RUN_EUR -eq 1 ]]; then
-    echo $SNP
+    get_column_numbers ${DATA_FILE}
     zcat ${DATA_FILE} | \
-      awk -v CHR=$CHR -v POS=$POS -v WINDOW=$WINDOW 'BEGIN{OFS="\t"}{if (NR == 1 ) print "SNP", "P"; else if ($1 == CHR && $2 >= POS - WINDOW && $2 <= POS + WINDOW) print $3,$9}' \
+      awk -v CHR_COL=$CHR_COL -v POS_COL=$POS_COL -v SNP_COL=$SNP_COL \
+        -v P_COL=$P_COL -v CHR=$CHR -v POS=$POS -v WINDOW=$WINDOW \
+        'BEGIN{OFS="\t"}{if (NR == 1 ) print "SNP", "P"; else if ($CHR_COL == CHR && $POS_COL >= POS - WINDOW && $POS_COL <= POS + WINDOW) print $SNP_COL,$P_COL}' \
       > inputs/${ANCESTRY}/${PREFIX}_${SNP}.tsv
   elif [[ $ANCESTRY == "AMR" ]] && [[ $RUN_AMR -eq 1 ]]; then
-    echo $SNP
+    get_column_numbers ${DATA_FILE}
     zcat ${DATA_FILE} | \
-      awk -v CHR=$CHR -v POS=$POS -v WINDOW=$WINDOW 'BEGIN{OFS="\t"}{if (NR == 1 ) print "SNP", "P"; else if ($2 == CHR && $3 >= POS - WINDOW && $3 <= POS + WINDOW) print $1,$9}' \
+      awk -v CHR_COL=$CHR_COL -v POS_COL=$POS_COL -v SNP_COL=$SNP_COL \
+        -v P_COL=$P_COL -v CHR=$CHR -v POS=$POS -v WINDOW=$WINDOW \
+        'BEGIN{OFS="\t"}{if (NR == 1 ) print "SNP", "P"; else if ($CHR_COL == CHR && $POS_COL >= POS - WINDOW && $POS_COL <= POS + WINDOW) print $SNP_COL,$P_COL}' \
       > inputs/${ANCESTRY}/${PREFIX}_${SNP}.tsv
   elif [[ $ANCESTRY == "AFR" ]] && [[ $RUN_AFR -eq 1 ]]; then
-    echo $SNP
+    get_column_numbers ${DATA_FILE}
     zcat ${DATA_FILE} | \
-      awk -v CHR=$CHR -v POS=$POS -v WINDOW=$WINDOW 'BEGIN{OFS="\t"}{if (NR == 1 ) print "SNP", "P"; else if ($2 == CHR && $3 >= POS - WINDOW && $3 <= POS + WINDOW) print $1,$9}' \
+      awk -v CHR_COL=$CHR_COL -v POS_COL=$POS_COL -v SNP_COL=$SNP_COL \
+        -v P_COL=$P_COL -v CHR=$CHR -v POS=$POS -v WINDOW=$WINDOW \
+        'BEGIN{OFS="\t"}{if (NR == 1 ) print "SNP", "P"; else if ($CHR_COL == CHR && $POS_COL >= POS - WINDOW && $POS_COL <= POS + WINDOW) print $SNP_COL,$P_COL}' \
       > inputs/${ANCESTRY}/${PREFIX}_${SNP}.tsv
   fi
   # Create european output
