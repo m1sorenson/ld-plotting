@@ -43,10 +43,10 @@ fi
 mkdir -p inputs/${ANCESTRY}
 mkdir -p outputs/${ANCESTRY}
 
-TRANS_IND_COL=$(head -n 1 ${CONFIG_FILE} | awk '{for(i = 1; i <= NF; i++){if($i == "RUN TRANS"){print i-1}}}')
-EUR_IND_COL=$(head -n 1 ${CONFIG_FILE} | awk '{for(i = 1; i <= NF; i++){if($i == "RUN EUR"){print i-1}}}')
-AMR_IND_COL=$(head -n 1 ${CONFIG_FILE} | awk '{for(i = 1; i <= NF; i++){if($i == "RUN AMR"){print i-1}}}')
-AFR_IND_COL=$(head -n 1 ${CONFIG_FILE} | awk '{for(i = 1; i <= NF; i++){if($i == "RUN AFR"){print i-1}}}')
+TRANS_IND_COL=$(head -n 1 ${CONFIG_FILE} | awk 'BEGIN{FS="\t"}{for(i = 1; i <= NF; i++){if($i == "RUN TRANS"){print i-1}}}')
+EUR_IND_COL=$(head -n 1 ${CONFIG_FILE} | awk 'BEGIN{FS="\t"}{for(i = 1; i <= NF; i++){if($i == "RUN EUR"){print i-1}}}')
+AMR_IND_COL=$(head -n 1 ${CONFIG_FILE} | awk 'BEGIN{FS="\t"}{for(i = 1; i <= NF; i++){if($i == "RUN AMR"){print i-1}}}')
+AFR_IND_COL=$(head -n 1 ${CONFIG_FILE} | awk 'BEGIN{FS="\t"}{for(i = 1; i <= NF; i++){if($i == "RUN AFR"){print i-1}}}')
 if [[ $TRANS_IND_COL == "" ]]; then TRANS_IND_COL=6; fi
 if [[ $EUR_IND_COL == "" ]]; then EUR_IND_COL=7; fi
 if [[ $AMR_IND_COL == "" ]]; then AMR_IND_COL=8; fi
@@ -72,6 +72,9 @@ get_column_numbers () {
     } }')
 }
 
+# gets the column numbers for CHR, POS, SNP, P
+get_column_numbers ${DATA_FILE}
+
 {
 read #skip first line
 while IFS=$'\t' read -r -a row; do
@@ -90,28 +93,24 @@ while IFS=$'\t' read -r -a row; do
   RUN_AMR=${row[$AMR_IND_COL]}
   RUN_AFR=${row[$AFR_IND_COL]}
   if [[ $ANCESTRY == "TRANS" ]] && [[ $RUN_TRANS -eq 1 ]]; then
-    get_column_numbers ${DATA_FILE}
     zcat ${DATA_FILE} | \
       awk -v CHR_COL=$CHR_COL -v POS_COL=$POS_COL -v SNP_COL=$SNP_COL \
         -v P_COL=$P_COL -v CHR=$CHR -v POS=$POS -v WINDOW=$WINDOW \
         'BEGIN{OFS="\t"}{if (NR == 1 ) print "SNP", "P"; else if ($CHR_COL == CHR && $POS_COL >= POS - WINDOW && $POS_COL <= POS + WINDOW) print $SNP_COL,$P_COL}' \
       > inputs/${ANCESTRY}/${PREFIX}_${SNP}.tsv
   elif [[ $ANCESTRY == "EUR" ]] && [[ $RUN_EUR -eq 1 ]]; then
-    get_column_numbers ${DATA_FILE}
     zcat ${DATA_FILE} | \
       awk -v CHR_COL=$CHR_COL -v POS_COL=$POS_COL -v SNP_COL=$SNP_COL \
         -v P_COL=$P_COL -v CHR=$CHR -v POS=$POS -v WINDOW=$WINDOW \
         'BEGIN{OFS="\t"}{if (NR == 1 ) print "SNP", "P"; else if ($CHR_COL == CHR && $POS_COL >= POS - WINDOW && $POS_COL <= POS + WINDOW) print $SNP_COL,$P_COL}' \
       > inputs/${ANCESTRY}/${PREFIX}_${SNP}.tsv
   elif [[ $ANCESTRY == "AMR" ]] && [[ $RUN_AMR -eq 1 ]]; then
-    get_column_numbers ${DATA_FILE}
     zcat ${DATA_FILE} | \
       awk -v CHR_COL=$CHR_COL -v POS_COL=$POS_COL -v SNP_COL=$SNP_COL \
         -v P_COL=$P_COL -v CHR=$CHR -v POS=$POS -v WINDOW=$WINDOW \
         'BEGIN{OFS="\t"}{if (NR == 1 ) print "SNP", "P"; else if ($CHR_COL == CHR && $POS_COL >= POS - WINDOW && $POS_COL <= POS + WINDOW) print $SNP_COL,$P_COL}' \
       > inputs/${ANCESTRY}/${PREFIX}_${SNP}.tsv
   elif [[ $ANCESTRY == "AFR" ]] && [[ $RUN_AFR -eq 1 ]]; then
-    get_column_numbers ${DATA_FILE}
     zcat ${DATA_FILE} | \
       awk -v CHR_COL=$CHR_COL -v POS_COL=$POS_COL -v SNP_COL=$SNP_COL \
         -v P_COL=$P_COL -v CHR=$CHR -v POS=$POS -v WINDOW=$WINDOW \
